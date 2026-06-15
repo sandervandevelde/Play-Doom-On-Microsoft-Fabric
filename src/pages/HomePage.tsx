@@ -1,7 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
 
-import { useAuth } from '@/hooks/AuthContext';
-
 const JS_DOS_SCRIPT = 'https://thedoggybrad.github.io/doom_on_js-dos/js-dos-api.js';
 const DOOM_ZIP = 'https://thedoggybrad.github.io/doom_on_js-dos/DOOM-@evilution.zip';
 const DOOM_EXE = './DOOM/DOOM.EXE';
@@ -46,14 +44,12 @@ function loadScript(src: string): Promise<void> {
 }
 
 export function HomePage() {
-  const { signOut } = useAuth();
   const doomRef = useRef<HTMLDivElement | null>(null);
   const dosboxRef = useRef<any>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   useEffect(() => {
     let cancelled = false;
-    let autoStartTimer: number | undefined;
 
     async function initDoom() {
       try {
@@ -74,12 +70,6 @@ export function HomePage() {
           },
         });
 
-        autoStartTimer = window.setTimeout(() => {
-          const startButton = document.querySelector<HTMLDivElement>('#DOOM .dosbox-start');
-          if (startButton) {
-            startButton.click();
-          }
-        }, 500);
       } catch (error) {
         const message = error instanceof Error ? error.message : 'Unable to initialize DOOM.';
         setErrorMessage(message);
@@ -91,9 +81,6 @@ export function HomePage() {
 
     return () => {
       cancelled = true;
-      if (autoStartTimer) {
-        window.clearTimeout(autoStartTimer);
-      }
       if (dosboxRef.current?.destroy) {
         try {
           dosboxRef.current.destroy();
@@ -108,9 +95,20 @@ export function HomePage() {
     <main className="min-h-screen bg-[#121212] text-white">
       <style>{`
         body { background-color: #121212; color: white; }
-        #DOOM > .dosbox-container { width: 640px; height: 400px; }
+        #DOOM,
+        #DOOM > .dosbox-container,
+        #DOOM > .dosbox-container > .dosbox-canvas,
+        #DOOM > .dosbox-container > canvas,
+        #DOOM > .dosbox-container > .dosbox-overlay {
+          width: 100% !important;
+          height: 100% !important;
+          max-width: 100% !important;
+          max-height: 100% !important;
+        }
         #DOOM > .dosbox-container > .dosbox-overlay {
           background: url('https://thedoggybrad.github.io/doom_on_js-dos/DOOM.png');
+          background-size: cover;
+          background-position: center;
         }
         .doom-link {
           color: white;
@@ -129,20 +127,10 @@ export function HomePage() {
           background-color: rgba(255, 255, 255, 0.08);
         }
       `}</style>
-      <div className="mx-auto flex min-h-screen max-w-4xl flex-col items-center justify-center px-4 py-10 text-center">
-        <h1 className="mb-4 text-4xl font-bold tracking-tight sm:text-5xl">Play DOOM via JS-DOS</h1>
-        <p className="mb-6 text-sm text-slate-300">
-          <a
-            className="doom-link"
-            href="https://github.com/thedoggybrad/doom_on_js-dos/blob/main/MANUAL.MD"
-            target="_blank"
-            rel="noreferrer"
-          >
-            User Manual
-          </a>
-        </p>
-        <div className="mb-4 w-full overflow-hidden rounded-3xl border border-white/10 bg-slate-950/40 p-4 shadow-2xl shadow-black/30">
-          <div id="DOOM" className="dosbox-default mx-auto" ref={doomRef} />
+      <div className="mx-auto flex min-h-screen w-full max-w-[1800px] flex-col items-center px-2 py-4 text-center sm:px-4 sm:py-6">
+
+        <div className="mb-3 h-[calc(100vh-220px)] min-h-[420px] w-full overflow-hidden rounded-2xl border border-white/10 bg-black p-0 shadow-2xl shadow-black/30">
+          <div id="DOOM" className="dosbox-default h-full w-full" ref={doomRef} />
         </div>
         {errorMessage ? (
           <div className="mb-4 rounded-2xl bg-red-950/70 p-4 text-left text-sm text-red-200">
@@ -150,17 +138,10 @@ export function HomePage() {
             <p>{errorMessage}</p>
           </div>
         ) : (
-          <p className="mb-4 text-sm text-slate-400">If the game does not start automatically, click the overlay inside the game box.</p>
+          <p className="mb-3 text-sm text-slate-400"></p>
         )}
-        <div className="flex flex-wrap items-center justify-center gap-4">
-          <button type="button" className="doom-button" onClick={() => dosboxRef.current?.requestFullScreen?.()}>
-            FULLSCREEN
-          </button>
-          <button type="button" className="doom-button" onClick={() => void signOut()}>
-            Sign out
-          </button>
-        </div>
-        <footer className="mt-8 text-xs text-slate-500">©TheDoggyBrad Software Lab. All Rights Reserved.</footer>
+
+        <footer className="mt-5 text-xs text-slate-500">©TheDoggyBrad Software Lab. All Rights Reserved.</footer>
       </div>
     </main>
   );
