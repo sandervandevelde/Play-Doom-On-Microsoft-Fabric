@@ -4,11 +4,13 @@ But can it run Doom?
 
 This silly question is something you could hear if a platform starts to mature.
 
-Because, getting Doom running on a platform is seen as the proof in the pudding.
+Because getting Doom running on a platform is seen as the proof in the pudding.
 
 With Fabric Apps, we suddenly can execute pro-code in Fabric.
 
 So, can it run Doom?
+
+<img width="1017" height="956" alt="doom" src="https://github.com/user-attachments/assets/c80302d7-1b38-41b3-8d1b-d44cd5c4f350" />
 
 ## Doom integration
 
