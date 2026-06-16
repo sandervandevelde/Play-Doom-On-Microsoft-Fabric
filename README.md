@@ -1,9 +1,27 @@
-# Blank App
+# Doom in Fabric Apps - merging Blank App template with Doom github project
+
+But can it run Doom?
+
+This silly question is something you could hear if a platform starts to mature.
+
+Because, getting Doom running on a platform is seen as the proof in the pudding.
+
+With Fabric Apps, we suddenly can execute pro-code in Fabric.
+
+So, can it run Doom?
+
+## Doom integration
+
+This Fabric App is a merge of both the Rayfin Blank app template and the Doom repo at [GitHub](https://github.com/thedoggybrad/doom_on_js-dos).
+
+See also [this blog post](https://sandervandevelde.wordpress.com/2026/06/07/playing-zork-i-as-a-microsoft-fabric-app-via-rayfin/) explaining all steps.
+
+## Blang App template
 
 Bare-bones Fabric-authenticated React + Vite app.
 Sign-in, routing, and a placeholder home page — with no data layer to delete before you start your own project.
 
-## Getting started
+### Getting started
 
 ```bash
 # Deploy app to Fabric and start the local dev server
@@ -12,7 +30,7 @@ npm run dev
 
 Open [http://localhost:5173](http://localhost:5173) to view the app.
 
-## Project structure
+### Project structure
 
 ```text
 ├── rayfin/
@@ -35,7 +53,7 @@ Open [http://localhost:5173](http://localhost:5173) to view the app.
 └── package.json
 ```
 
-## Scripts
+### Scripts
 
 | Command | Description |
 |---------|-------------|
